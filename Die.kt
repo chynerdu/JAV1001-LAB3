@@ -1,8 +1,13 @@
 
+ 
+
+package game
+
+import kotlin.random.Random
 
 enum class Color {
     RED,
-    BROWN,
+    WHITE,
     ORANGE,
     PURPLE,
 }
@@ -14,9 +19,25 @@ enum class Sides(val value: Int) {
     TWENTY(20),
 }
 
-class Die(private val color: Color, private val numOfSides: Sides, private val sideUp: Int)
+class Die(private val color: Color, private val numSides: Sides) {
+    var sideUp: Int = 1
+        private set
 
-fun man() {
-    val die = Die(Color.RED, Sides.TWENTY, 1)
-    println(die)
+    // Called each time we initialize a new Die object.
+    init {
+        roll()
+    }
+
+    // Secondary constructors that call the primary constructor
+    constructor() : this(Color.WHITE, Sides.SIX)
+    constructor(numSides: Sides) : this(Color.WHITE, numSides)
+
+    fun roll() {
+        println("rolling the die")
+        sideUp = Random.nextInt(1, numSides.value + 1)
+    }
+
+    override fun toString(): String {
+        return "A ${color.name} die with ${numSides.value} faces and currently showing a $sideUp."
+    }
 }
